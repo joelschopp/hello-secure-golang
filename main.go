@@ -2,8 +2,14 @@ package main
 
 import (
 	"fmt"
+	"log"
 )
 
 func main() {
-    fmt.Println("hello world")
+	err := SeccompInit()
+	if err != nil {
+		log.Fatal(err)
+	}
+	
+	fmt.Println("hello world")
 }

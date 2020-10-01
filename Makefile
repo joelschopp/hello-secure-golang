@@ -4,10 +4,11 @@ docker: ## build docker image
 
 .PHONY: run
 run: ## run the 
-	docker run -it -v $(PWD):/repo/ --rm hello
+	docker run -it -v $(PWD):/root/go/src/github.com/joelschopp/hello-secure-golang/ --rm hello
 
 .PHONY: build
 build: ## Build.
+	go get
 	go build -buildmode=pie -ldflags '-linkmode=external' -o hello
 
 .PHONY: checksec
