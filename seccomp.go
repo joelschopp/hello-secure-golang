@@ -1,15 +1,17 @@
 package main
 
-import (	
+import (
 	"fmt"
 	"log"
-	
+
 	libseccomp "github.com/seccomp/libseccomp-golang"
 )
 
 func SeccompInit() error {
 	syscalls := []string{
-
+		"write",      // 1
+		"nanosleep",  // 35
+		"exit_group", // 231
 	}
 
 	// Some newer syscalls aren't universally available to lookup by string.  Add them manually
@@ -23,7 +25,7 @@ func SeccompInit() error {
 	// ActLog is the most concervative action.  Your proram will run as normal
 	// Requires libseccomp API level 3 or later, so may not be available on old versions of Linux
 	filter, err := libseccomp.NewFilter(libseccomp.ActLog)
-	
+
 	// As you can confidence in your system call list you may want to switch to returning EPERM or ActKill
 	// instead of ActLog
 	//filter, err := libseccomp.NewFilter(libseccomp.ActErrno.SetReturnCode(int16(syscall.EPERM)))
@@ -58,6 +60,5 @@ func SeccompInit() error {
 	}
 
 	return nil
-
 
 }
